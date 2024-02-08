@@ -1,5 +1,20 @@
 import torch
 import random
+import math
+
+# Compute perplexity for the language model
+def compute_perplexity(model, test_data):
+    total_log_prob = 0
+    num_words = 0
+
+    for input_ix, output_ix in test_data:
+        transition_probs = model.transition_matrix[input_ix]
+        word_prob = transition_probs[output_ix] / transition_probs.sum()
+        total_log_prob += math.exp(word_prob)
+        num_words += 1
+
+    perplexity = math.exp(-total_log_prob / num_words)
+    return perplexity
 
 class SimpleWordLanguageModel:
     def __init__(self, vocab_size):
@@ -43,3 +58,8 @@ model.train(training_data)
 
 # Generate text using the trained model
 model.generate_text(100, 'tiny_shakespeare.txt', word_to_ix, ix_to_word)
+
+# Compute and print the perplexity of the model on the test data
+print("Computing and printing model perplexity...")
+perplexity = compute_perplexity(model, training_data)
+print(f"Perplexity of the model: {perplexity}")
