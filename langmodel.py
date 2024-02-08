@@ -3,6 +3,12 @@ import random
 import math
 
 # Compute perplexity for the language model
+# It is calculated as the inverse probability of the test set normalized by the number of words.
+# 1. Iterating over the test data;
+# 2. Computing the probability of each word given the preceding words;
+# 3. Accumulating the log probability;
+# 4. Final reuslt is calculated by exponentiating the negative log probability divided by the number of words.
+# Other way to compute perplexity is 2^(average bits per word)
 def compute_perplexity(model, test_data):
     total_log_prob = 0
     num_words = 0
@@ -10,7 +16,7 @@ def compute_perplexity(model, test_data):
     for input_ix, output_ix in test_data:
         transition_probs = model.transition_matrix[input_ix]
         word_prob = transition_probs[output_ix] / transition_probs.sum()
-        total_log_prob += math.exp(word_prob)
+        total_log_prob += math.log(word_prob)
         num_words += 1
 
     perplexity = math.exp(-total_log_prob / num_words)
