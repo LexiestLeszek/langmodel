@@ -1,5 +1,5 @@
 # langmodel
-Simple implementation of a word-based language model that learns to predict the next word predicts the next word based on the previous one by training on a provided text dataset (Karpathy's Tiny Shakespeare):
+Simple implementation of a word-based language model that learns to predict the next word based on the previous one by training on a provided text dataset (Karpathy's Tiny Shakespeare):
 
 How it works:
 1. Text data  loaded from a file, preprocessed (converting it to lowercase and tokenizing it into words).
